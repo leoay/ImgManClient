@@ -21,12 +21,23 @@ jobs:
       - run: npm install
       - run: npm run build
 
-      - name: Deploy to Server # 第二步，rsync推文件
-        uses: up9cloud/action-rsync@v1.3
+      # - name: Deploy to Server # 第二步，rsync推文件
+      #   uses: up9cloud/action-rsync@v1.3
 
-        env:
-          HOST: ${{ secrets.SSH_HOST }}
-          KEY: ${{secrets.DEPLOY_KEY}}
-          TARGET: /webserver/ImgManClient/
-          SOURCE: ./dist/
-          SERVER_PORT: "22" # SSH端口
+      #   env:
+      #     HOST: ${{ secrets.SSH_HOST }}
+      #     KEY: ${{secrets.DEPLOY_KEY}}
+      #     TARGET: /webserver/ImgManClient/
+      #     SOURCE: ./dist/
+      #     SERVER_PORT: "22" # SSH端口
+
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.2
+        with:
+          switches: -avzr --delete --exclude="" --include="" --filter=""
+          path: ./dist/
+          remote_path: /webserver/ImgManClient/
+          remote_host: 101.35.54.147
+          remote_port: 22
+          remote_user: root
+          remote_key: ${{ secrets.DEPLOY_KEY }}
