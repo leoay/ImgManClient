@@ -30,9 +30,8 @@ jobs:
       #     TARGET: /webserver/ImgManClient/
       #     SOURCE: ./dist/
       #     SERVER_PORT: "22" # SSH端口
-
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@5.2
+      - uses: burnett01/rsync-deployments@5.2
+        name: rsync deployments
         with:
           switches: -avzr --delete --exclude="" --include="" --filter=""
           path: ./dist/
